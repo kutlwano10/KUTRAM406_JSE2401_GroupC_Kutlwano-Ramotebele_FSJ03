@@ -45,9 +45,6 @@ Before proceeding, ensure that you have the following:
     FIREBASE_APP_ID=your_app_id
    ```
 
-````
-
-
 ## Step 5: Get Your Firebase API Keys and Configuration
 
 1. After registering your web app in Firebase, you will see the Firebase SDK configuration displayed on the Firebase Console. Click on **Project Overview**, just below your project name (on the main screen) you will 1 app which is the web app registered in step 3.
@@ -62,7 +59,7 @@ Before proceeding, ensure that you have the following:
   FIREBASE_STORAGE_BUCKET=next-ecommerce-lkjoip9.kojnpn
   FIREBASE_MESSAGING_SENDER_ID=26661115351514145
   FIREBASE_APP_ID=1:5444:eekohrgjrgoirngu
-````
+```
 
 ## Step 6: Upload Data to Firestore
 
