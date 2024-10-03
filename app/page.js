@@ -1,10 +1,10 @@
 
-import ProductList from "./components/ProductList";
+import ProductPage from "./components/ProductList";
 
 export default async function Home() {
   return (
     <div>
-      <ProductList />
+      <ProductPage />
     </div>
   );
 }
