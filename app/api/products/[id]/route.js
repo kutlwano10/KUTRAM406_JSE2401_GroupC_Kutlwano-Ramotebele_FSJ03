@@ -2,6 +2,16 @@ import { db } from "@/lib/firebaseConfig";
 import { NextResponse } from "next/server";
 import { doc, getDoc } from "firebase/firestore";
 
+/**
+ * Fetches a single product by its ID from the Firestore database.
+ *
+ * @param {Request} req - The incoming HTTP request.
+ * @param {Object} context - Context containing the request parameters, including the product ID.
+ * @returns {Promise<NextResponse>} - A promise that resolves to a Next.js response object containing the product.
+ *
+ * @throws Will throw an error if fetching the product fails or the product is not found.
+ */
+
 export async function GET(req, {params}) {
   try {
     let { id } = params;
