@@ -1,26 +1,33 @@
 import { db } from "@/lib/firebaseConfig";
 import { NextResponse } from "next/server";
-import { collection, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+
+export async function GET(req, { params }) {
+  let { id } = params;
+  
+  try {
+    // i used doc to get a single doc/product inside the products collection by id
+    const productsRef = doc(db, "products", id);
 
 
-export async function GET ({params}) {
-    try {
-        const {id} = params
-        const productsCollection = collection(db, "products")
-        
-        const productsDoc = await getDocs(productsCollection)
+    const productSnap = await getDoc(productsRef);
 
-        const productList = productsDoc.docs.map(doc=> ({
-            id: doc.id, 
-            ...doc.data()
 
-        }))
-
-        const selectedProductById = productList.findOne({id: id})
-
-        return NextResponse.json(selectedProductById)
-    } catch (error) {
-        return NextResponse.json({error: "Failed to fetch Products"}, {status: 500})
-        
+    if (productSnap.exists()) {
+       let selectedProductById = {
+        id: productSnap.id, //i am getting the Doc by id
+        ...productSnap.data(),
+      };
+      return NextResponse.json(selectedProductById);
+    }else {
+        return NextResponse.json({error: "Product not found"}, {status:404})
     }
+    
+    
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch Products" },
+      { status: 500 }
+    );
+  }
 }

@@ -10,7 +10,7 @@ export const fetchProductById = async (id) => {
       throw new Error("Response Failed");
     }
     const data = await res.json();
-    console.log(data)
+    
     return data;
   } catch (error) {
     console.error("failed to Fetch Product", error);
@@ -38,6 +38,7 @@ const ProductDetails = async ({ params }) => {
               alt={product.title}
               className="w-full h-auto object-cover rounded-lg"
             /> */}
+            
           </div>
           <div className="flex flex-col justify-between">
             <div>
