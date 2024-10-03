@@ -3,13 +3,14 @@ import { NextResponse } from "next/server";
 import { collection, getDocs } from "firebase/firestore";
 
 
-export async function GET () {
+export async function GET ({params}) {
     try {
+        const {id} = params
         const productsCollection = collection(db, "products")
         const productsDoc = await getDocs(productsCollection)
         const productList = productsDoc.docs.map(doc=> ({
             id: doc.id, 
-            ...doc.data()
+            ...doc.data({id: id})
 
         }))
 

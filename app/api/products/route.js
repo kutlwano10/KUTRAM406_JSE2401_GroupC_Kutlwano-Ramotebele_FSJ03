@@ -1,6 +1,6 @@
 import { db } from "@/lib/firebaseConfig";
 import { NextResponse } from "next/server";
-import { collection, getDocs, query, limit } from "firebase/firestore";
+import { collection, getDocs, query, limit, } from "firebase/firestore";
 
 /**
  * Fetches a list of products from the Firestore database.
@@ -20,6 +20,7 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const requestedLimit = searchParams.get("limit");
 
+    //This set the limit to any number you want else it sets its default to 20
     const productsLimit = requestedLimit ? parseInt(requestedLimit, 10) : 20;
 
     const productsCollection = collection(db, "products");

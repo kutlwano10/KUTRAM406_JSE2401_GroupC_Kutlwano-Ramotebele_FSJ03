@@ -17,7 +17,7 @@ const ProductCard = (props) => {
         </button>
       </div>
 
-      <Link href="" className="flex bg-white justify-center">
+      <Link href={`/product/${id}`} className="flex bg-white justify-center">
         <Image
           className="object-cover "
           priority="true"
