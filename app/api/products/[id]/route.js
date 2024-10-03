@@ -10,6 +10,7 @@ export async function GET () {
         const productList = productsDoc.docs.map(doc=> ({
             id: doc.id, 
             ...doc.data()
+
         }))
 
         return NextResponse.json(productList)
@@ -18,6 +19,3 @@ export async function GET () {
         
     }
 }
-
-
-

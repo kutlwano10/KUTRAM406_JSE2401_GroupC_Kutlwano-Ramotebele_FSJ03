@@ -4,23 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import favorite from "../public/favorite.svg";
 import cart from "../public/cart.svg";
-// import { useCart } from "../CartContext";
 
 const ProductCard = (props) => {
   const { title, thumbnail, price, category, id } = props;
 
-  // const { addToCart } = useCart();
-
-  // Handle adding product to cart
-  // const handleAddToCart = () => {
-  //   const product = {
-  //     id: _id,
-  //     title,
-  //     price,
-  //     image: images,
-  //   };
-  //   addToCart(product);
-  // };
   return (
     <div className="flex flex-col max-h-[130rem] cursor-pointer max-w-80 hover:-translate-y-1 hover:scale-105 duration-300 bg-white border border-slate-200 shadow shadow-slate-950/5  overflow-hidden">
       <div className="flex align-center p-2">
@@ -30,14 +17,15 @@ const ProductCard = (props) => {
         </button>
       </div>
 
-      <Link href="" className="flex justify-center">
-        <img
-          priority = "true"
-          alt="img"
+      <Link href="" className="flex bg-white justify-center">
+        <Image
+          className="object-cover "
+          priority="true"
+          alt={title}
           src={thumbnail}
-          width="300"
-          height="300"
-          crop="scale"
+          width={300}
+          height={300}
+          
         />
       </Link>
 
@@ -64,7 +52,7 @@ const ProductCard = (props) => {
           </div>
         </div>
         <div className="flex justify-end gap-3 space-x-2">
-          <button >
+          <button>
             <Image className="w-8" width={100} height={100} src={cart} alt="" />
           </button>
         </div>
