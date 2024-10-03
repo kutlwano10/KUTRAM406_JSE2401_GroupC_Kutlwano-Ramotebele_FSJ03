@@ -19,7 +19,7 @@ export const fetchProductById = async (id) => {
 
 const ProductDetails = async ({ params }) => {
   
-  const  {product}  = await fetchProductById(params.id);
+  const  product  = await fetchProductById(params.id);
   return (
     <main>
       
@@ -32,12 +32,12 @@ const ProductDetails = async ({ params }) => {
       <div className="max-w-6xl mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            <Image
+            {/* <Image
             priority = "true"
               src={product.thumbnail}
               alt={product.title}
               className="w-full h-auto object-cover rounded-lg"
-            />
+            /> */}
           </div>
           <div className="flex flex-col justify-between">
             <div>
