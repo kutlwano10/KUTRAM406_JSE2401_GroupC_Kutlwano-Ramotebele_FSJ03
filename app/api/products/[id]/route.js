@@ -2,31 +2,51 @@ import { db } from "@/lib/firebaseConfig";
 import { NextResponse } from "next/server";
 import { doc, getDoc } from "firebase/firestore";
 
-export async function GET(req, { params }) {
-  let { id } = params;
-  
+export async function GET(req, {params}) {
   try {
-    // i used doc to get a single doc/product inside the products collection by id
-    const productsRef = doc(db, "products", id);
+    let { id } = params;
+    console.log(`Original requested ID: ${id}`);
 
+    // Pad the ID with leading zeros if necessary
+    id = id.padStart(3, '0');
+    console.log(`Padded ID for Firestore query: ${id}`);
 
-    const productSnap = await getDoc(productsRef);
+    const productRef = doc(db, "products", id);
+    const productSnap = await getDoc(productRef);
 
-
-    if (productSnap.exists()) {
-       let selectedProductById = {
-        id: productSnap.id, //i am getting the Doc by id
-        ...productSnap.data(),
-      };
-      return NextResponse.json(selectedProductById);
-    }else {
-        return NextResponse.json({error: "Product not found"}, {status:404})
+    console.log(`Document exists: ${productSnap.exists()}`);
+    
+    if (!productSnap.exists()) {
+      console.log(`Product with ID ${id} not found`);
+      return NextResponse.json(
+        { error: "Product not found" },
+        { status: 404 }
+      );
     }
-    
-    
+
+    const productData = productSnap.data();
+    console.log('Raw product data:', productData);
+
+    if (!productData) {
+      console.log(`Product with ID ${id} exists but has no data`);
+      return NextResponse.json(
+        { error: "Product exists but has no data" },
+        { status: 500 }
+      );
+    }
+
+    const product = {
+      id: productSnap.id,
+      ...productData,
+    };
+
+    console.log('Processed product:', product);
+
+    return NextResponse.json(product);
   } catch (error) {
+    console.error("Error fetching product:", error);
     return NextResponse.json(
-      { error: "Failed to fetch Products" },
+      { error: "Failed to fetch Product", details: error.message },
       { status: 500 }
     );
   }

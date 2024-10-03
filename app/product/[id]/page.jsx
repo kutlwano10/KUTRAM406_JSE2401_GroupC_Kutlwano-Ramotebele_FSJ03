@@ -5,11 +5,12 @@ import Back from "../../public/turn-back2.png"
 
 export const fetchProductById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`);
-    if (!res) {
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {cache: "no-store"});
+    if (!res.ok) {
       throw new Error("Response Failed");
     }
     const data = await res.json();
+    console.log(data)
     
     return data;
   } catch (error) {
@@ -20,6 +21,17 @@ export const fetchProductById = async (id) => {
 const ProductDetails = async ({ params }) => {
   
   const  product  = await fetchProductById(params.id);
+ 
+
+  if(!product) {
+    return (
+        <main>
+        <div className="max-w-6xl mx-auto p-8">
+          <h1 className="text-4xl font-bold mb-2">Product not found</h1>
+        </div>
+      </main>
+    )
+  }
   return (
     <main>
       
@@ -32,13 +44,15 @@ const ProductDetails = async ({ params }) => {
       <div className="max-w-6xl mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            {/* <Image
+            <Image
             priority = "true"
               src={product.thumbnail}
               alt={product.title}
+              width={300}
+              height={400}
               className="w-full h-auto object-cover rounded-lg"
-            /> */}
-            
+            />
+
           </div>
           <div className="flex flex-col justify-between">
             <div>
