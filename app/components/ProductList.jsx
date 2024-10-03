@@ -21,7 +21,7 @@ const ProductList = async () => {
     <div className="px-[2%] md:px-0 max-w-xl md:mx-auto grid gap-4 grid-cols-2 lg:grid-cols-5 justify-center md:grid-cols-3 lg:mx-[9%] items-center lg:max-w-none my-4">
       {/* Show skeleton loaders when products are still loading */}
       
-      {products.length == 0? (
+      {products.length < 0 ? (
         // Render 10 skeleton loaders to match the grid layout
         Array(10).fill(0).map((_, idx) => <SkeletonLoader key={idx} />)
       ) : (
