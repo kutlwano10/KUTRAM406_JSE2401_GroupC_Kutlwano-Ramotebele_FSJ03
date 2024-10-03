@@ -7,7 +7,7 @@ import cart from "../public/cart.svg";
 // import { useCart } from "../CartContext";
 
 const ProductCard = (props) => {
-  const { title, images, price, category, id } = props;
+  const { title, thumbnail, price, category, id } = props;
 
   // const { addToCart } = useCart();
 
@@ -31,10 +31,10 @@ const ProductCard = (props) => {
       </div>
 
       <Link href="" className="flex justify-center">
-        <Image
-          priority
+        <img
+          priority = "true"
           alt="img"
-          src={images}
+          src={thumbnail}
           width="300"
           height="300"
           crop="scale"

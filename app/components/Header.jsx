@@ -56,11 +56,6 @@ const Header = () => {
             <Link href="">
               <Image className=" w-6" src={search} alt="" />
             </Link>
-             
-            <Link href="/profile">
-           <button className="w-12 h-8 bg-[blue] text-white rounded-md text  hover:bg-[blue]"> Profile</button >
-            {/* <Image className=" w-8" src={dashboard} alt="" /> */}
-            </Link>
             {/* cart */}
             <button  className="relative cursor-pointer">
               {/* {console.log(totalItemsInCart)} */}
