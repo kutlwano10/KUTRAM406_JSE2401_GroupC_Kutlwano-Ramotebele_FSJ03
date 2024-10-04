@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header/>
-        <main className="min-h-screen mt-20 lg:mt-28 bg-white">{children}</main>
+        <main className="min-h-screen pt-20 lg:pt-28 bg-white">{children}</main>
         <MobileBar/>
       </body>
     </html>
