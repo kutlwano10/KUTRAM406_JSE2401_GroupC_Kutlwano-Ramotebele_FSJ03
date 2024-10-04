@@ -13,13 +13,7 @@ import search from "../public/search.svg";
 const Header = () => {
   // const [totalItemsInCart,setTotalItemsInCart] =useState(null)
   // const { cartItems } = useCart();
-  // const toggleNavbar = () => {
-  //   const dropDown = document.getElementById("navbar-dropdown");
-  //   dropDown.classList.contains("hidden")
-  //     ? dropDown.classList.remove("hidden")
-  //     : dropDown.classList.add("hidden");
-  // };
-
+ 
   // const [isCartOpen, setIsCartOpen] = useState(false);
 
   // const toggleCart = () => {
