@@ -1,6 +1,6 @@
 {
-  "name": "Your App Name",
-  "short_name": "App",
+  "name": "YumYum",
+  "short_name": "Yum",
   "icons": [
     {
       "src": "windows11/SmallTile.scale-100.png",

@@ -6,35 +6,18 @@ import cart from "../public/cart.svg";
 import menu from "../public/menu-4.svg";
 import search from "../public/search.svg";
 import logo from "../public/logo.png"
-// import dashboard from "../public/dashboard.svg";
-// import Footer from "./Footer";
-// import Modal from "./CartModal";
-// import { useCart } from "../CartContext";
+import InstallPwaButton from "./InstallPwaButton";
+
 
 const Header = () => {
-  // const [totalItemsInCart,setTotalItemsInCart] =useState(null)
-  // const { cartItems } = useCart();
 
-  // const [isCartOpen, setIsCartOpen] = useState(false);
-
-  // const toggleCart = () => {
-  //   setIsCartOpen(!isCartOpen);
-  // };
-
-  // useEffect(()=>{
-  //   const totalItemsInCart1 = cartItems.reduce(
-  //     (total, item) => total + item.quantity,
-  //     0
-  //   );
-
-  //   setTotalItemsInCart(totalItemsInCart1);
-  // },[])
 
   return (
     <>
       <header className=" w-full fixed top-0 bg-white shadow-md z-10">
         <nav className="flex justify-between items-center  px-4 md:p-[8%] py-4 md:py-6">
           <Image className="w-7" src={menu} alt="" />
+          <InstallPwaButton/>
 
           <Link
             href="/"
@@ -47,7 +30,7 @@ const Header = () => {
               src={logo}
               width={120}
               height={100}
-              
+
             />
           </Link>
 
