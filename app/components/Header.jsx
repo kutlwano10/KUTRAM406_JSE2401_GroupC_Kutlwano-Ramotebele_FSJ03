@@ -1,10 +1,11 @@
 "use client";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import cart from "../public/cart.svg";
 import menu from "../public/menu-4.svg";
 import search from "../public/search.svg";
+import logo from "../public/logo.png"
 // import dashboard from "../public/dashboard.svg";
 // import Footer from "./Footer";
 // import Modal from "./CartModal";
@@ -13,13 +14,12 @@ import search from "../public/search.svg";
 const Header = () => {
   // const [totalItemsInCart,setTotalItemsInCart] =useState(null)
   // const { cartItems } = useCart();
- 
+
   // const [isCartOpen, setIsCartOpen] = useState(false);
 
   // const toggleCart = () => {
   //   setIsCartOpen(!isCartOpen);
   // };
-
 
   // useEffect(()=>{
   //   const totalItemsInCart1 = cartItems.reduce(
@@ -29,20 +29,26 @@ const Header = () => {
 
   //   setTotalItemsInCart(totalItemsInCart1);
   // },[])
-  
-
 
   return (
     <>
       <header className=" w-full fixed top-0 bg-white shadow-md z-10">
-        <nav className="flex justify-between items-center  px-4 md:p-[8%] py-3 md:py-6">
-          <Image  className="w-7" src={menu} alt="" />
+        <nav className="flex justify-between items-center  px-4 md:p-[8%] py-4 md:py-6">
+          <Image className="w-7" src={menu} alt="" />
 
           <Link
             href="/"
             className="pl-8 text-[#87e64b] font-extrabold text-3xl  md:text-5xl"
           >
-            Shofy
+            <Image
+              className="object-cover "
+              priority="true"
+              alt="logo"
+              src={logo}
+              width={120}
+              height={100}
+              
+            />
           </Link>
 
           <div className=" flex items-center  md:gap-4">
@@ -51,15 +57,13 @@ const Header = () => {
               <Image className=" w-6" src={search} alt="" />
             </Link>
             {/* cart */}
-            <button  className="relative cursor-pointer">
+            <button className="relative cursor-pointer">
               {/* {console.log(totalItemsInCart)} */}
 
               <div className="t-0 absolute left-3 -top-4">
-                
-                  <p className="flex h-2 w-2 items-center  justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-                    2
-                  </p>
-              
+                <p className="flex h-2 w-2 items-center  justify-center rounded-full bg-red-500 p-3 text-xs text-white">
+                  2
+                </p>
               </div>
 
               <Image className="w-7 " src={cart} alt="" />
