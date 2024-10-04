@@ -5,7 +5,7 @@ import Back from "../../public/turn-back2.png";
 
 export const fetchProductById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {cache: "no-store"});
+    const res = await fetch(`https://shofy-app-flax.vercel.app/api/products/${id}`, {cache: "no-store"});
     if (!res.ok) {
       throw new Error("Response Failed");
     }

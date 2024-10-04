@@ -4,7 +4,7 @@ import SkeletonLoader from "./ProductSkeleton";
 
 export const getProducts = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/products", {cache: "no-store"});
+    const res = await fetch("https://shofy-app-flax.vercel.app/api/products", {cache: "no-store"});
     if (!res) {
       throw new Error("Failed to Fetch Response");
     }
