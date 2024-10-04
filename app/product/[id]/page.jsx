@@ -5,12 +5,12 @@ import Back from "../../public/turn-back2.png"
 
 export const fetchProductById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {cache: "no-store"});
+    const res = await fetch(`http://localhost:3000/api/products/${id}`);
     if (!res.ok) {
       throw new Error("Response Failed");
     }
     const data = await res.json();
-    console.log(data)
+    
     
     return data;
   } catch (error) {

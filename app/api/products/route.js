@@ -37,7 +37,6 @@ export async function GET(req) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch Products" },
-
       { status: 500 }
     );
   }
