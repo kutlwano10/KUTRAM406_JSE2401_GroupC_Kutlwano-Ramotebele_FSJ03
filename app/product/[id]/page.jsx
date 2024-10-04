@@ -1,17 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
-import Back from "../../public/turn-back2.png"
+import Back from "../../public/turn-back2.png";
 
 export const fetchProductById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`);
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {cache: "no-store"});
     if (!res.ok) {
       throw new Error("Response Failed");
     }
     const data = await res.json();
-    
-    
+
     return data;
   } catch (error) {
     console.error("failed to Fetch Product", error);
@@ -19,25 +18,22 @@ export const fetchProductById = async (id) => {
 };
 
 const ProductDetails = async ({ params }) => {
-  
-  const  product  = await fetchProductById(params.id);
- 
+  const product = await fetchProductById(params.id);
 
-  if(!product) {
+  if (!product) {
     return (
-        <main>
+      <main>
         <div className="max-w-6xl mx-auto p-8">
           <h1 className="text-4xl font-bold mb-2">Product not found</h1>
         </div>
       </main>
-    )
+    );
   }
   return (
     <main>
-      
       <div className="mt-20 ml-10 w-14">
         <Link href="/">
-          <Image src={Back} alt="turn-back" priority width={30} height={30} />
+          <Image src={Back} alt="turn-back" priority="true" width={30} height={30} />
         </Link>
       </div>
 
@@ -45,14 +41,13 @@ const ProductDetails = async ({ params }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
             <Image
-            priority = "true"
+              priority="true"
               src={product.thumbnail}
               alt={product.title}
               width={300}
               height={400}
               className="w-full h-auto object-cover rounded-lg"
             />
-
           </div>
           <div className="flex flex-col justify-between">
             <div>
