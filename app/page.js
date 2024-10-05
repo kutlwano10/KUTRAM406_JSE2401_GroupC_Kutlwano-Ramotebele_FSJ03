@@ -1,4 +1,4 @@
-
+"use client"
 import Filter from "./components/Filter";
 import ProductPage from "./components/ProductList";
 

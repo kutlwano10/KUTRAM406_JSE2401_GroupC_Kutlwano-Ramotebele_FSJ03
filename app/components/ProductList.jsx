@@ -16,8 +16,8 @@ export const getProducts = async (category ) => {
   }
 };
 
-const ProductList = async () => {
-  const products = await getProducts();
+const ProductList = async ({category}) => {
+  const products = await getProducts(category);
 
   if (!products) {
     return (

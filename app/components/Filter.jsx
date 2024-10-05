@@ -1,47 +1,41 @@
-import meat from "../public/meat.jpg";
-import Image from "next/image";
+
+import { useEffect, useState } from "react";
+
 const getCategories = async () => {
   try {
-    const res = await fetch(
-      `https://shofy-app-flax.vercel.app/api/products/categories`,
-      { cache: "no-store" }
-    );
+    const res = await fetch(`https://shofy-app-flax.vercel.app/api/products/categories`, { cache: "no-store" });
     if (!res.ok) {
       throw new Error("Failed to fetch categories");
     }
     const data = await res.json();
-    console.log(data);
-    return data;
+    return data[0]?.categories || []; // Access categories array safely
   } catch (error) {
     console.error("Failed to fetch categories", error);
-    return [];
+    return []; 
   }
 };
 
-const Filter = async () => {
-  const data = await getCategories();
-  const categories = data[0]?.categories || [];
+const Filter = ({ onCategoryChange }) => {
+  const [categories, setCategories] = useState([]);
 
-  console.log("This is console", categories);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const fetchedCategories = await getCategories();
+      setCategories(fetchedCategories);
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <div>
-      <h1 className="text-gray-800 text-2xl font-semibold pl-5 mb-4">
-        Categories
-      </h1>
-      <button className="w-20 h-10 bg-[blue] text-white py-2 rounded-md mb-2 mt-4 hover:bg-[blue]">
+      <h1 className="text-gray-800 text-2xl font-semibold pl-5 mb-4">Categories</h1>
+      <button onClick={() => onCategoryChange("all")} className="w-20 h-10 bg-[blue] text-white py-2 rounded-md mb-2 mt-4 hover:bg-[blue]">
         All
       </button>
       <div className="flex w-full gap-6 mb-8 lg:justify-center overflow-x-auto">
         {categories.map((category, index) => (
-          <div key={index} className="flex-shrink-0 text-center">
-            <Image
-              className="w-14 h-14 object-cover rounded-full mx-auto"
-              src={meat}
-              alt=""
-            />
-            <h1 className="mt-2">{category}</h1>{" "}
-            {/* Assuming category is just a string */}
+          <div key={index} onClick={() => onCategoryChange(category)} className="flex-shrink-0 text-center cursor-pointer">
+            <h1 className="mt-2">{category}</h1>
           </div>
         ))}
       </div>
