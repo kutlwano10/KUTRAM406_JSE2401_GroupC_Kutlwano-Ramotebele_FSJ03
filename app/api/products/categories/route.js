@@ -20,7 +20,7 @@ import {
  * const response = await fetch('/api/products');
  * const products = await response.json();
  *
- * @throws Will throw an error if the fetching of products fails.
+ * @throws Will throw an error if the fetching of categories fails.
  */
 
 export async function GET(req) {
@@ -28,19 +28,6 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const requestedLimit = searchParams.get("limit");
     const requestedFilter = searchParams.get("filter");
-
-    //This set the limit to any number you want else it sets its default to 20
-    const productsLimit = requestedLimit ? parseInt(requestedLimit, 10) : 20;
-
-    const productsCollection = collection(db, "products");
-    //i created a query with a limit default of 20
-    const productsQuery = query(productsCollection, limit(productsLimit));
-    const productsSnapshots = await getDocs(productsQuery);
-
-    const productList = productsSnapshots.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
 
     //Getting all Categories
 
@@ -55,26 +42,12 @@ export async function GET(req) {
 
     //categoryList has only one document with the 'categories' field
     const categories = categoryList.length > 0 ? categoryList[0].categories : [];
-
-
-    let filteredProducts;
-
-    if(requestedFilter && categories.includes(requestedFilter)) {
-        filteredProducts =productList.filter(product=>{
-           return product.category === requestedFilter
-        })
-    }else {
-        filteredProducts = productList
-    }
-
     console.log(categories)
-console.log(filteredProducts)
-   
 
-    return NextResponse.json(filteredProducts);
+    return NextResponse.json(categoryList);
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch Products" },
+      { error: "Failed to fetch Categories" },
       { status: 500 }
     );
   }

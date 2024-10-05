@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import ProductCard from "./ProductCard";
 import SkeletonLoader from "./ProductSkeleton";
 
-export const getProducts = async () => {
+export const getProducts = async (category ) => {
   try {
-    const res = await fetch("https://shofy-app-flax.vercel.app/api/products", {cache: "no-store"});
+    const res = await fetch(`https://shofy-app-flax.vercel.app/api/products/?filter=${category}`, {cache: "no-store"});
     if (!res) {
       throw new Error("Failed to Fetch Response");
     }
