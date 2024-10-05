@@ -1,6 +1,14 @@
 import { db } from "@/lib/firebaseConfig";
 import { NextResponse } from "next/server";
-import { collection, getDocs, query, limit, filter, getDoc, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  limit,
+  filter,
+  getDoc,
+  where,
+} from "firebase/firestore";
 
 /**
  * Fetches a list of products from the Firestore database.
@@ -27,23 +35,25 @@ export async function GET(req) {
     const productsCollection = collection(db, "products");
     //i created a query with a limit default of 20
     const productsQuery = query(productsCollection, limit(productsLimit));
-
     const productsSnapshots = await getDocs(productsQuery);
 
     //Getting all Categories
-    
+
     const categoriesCollection = collection(db, "categories");
 
-    let categoriesQuery = categoriesCollection
+    let categoriesQuery = categoriesCollection;
 
-    if(requestedFilter) {
-        categoriesQuery = query(categoriesCollection, where("type", "==", requestedFilter))
+    if (requestedFilter) {
+      categoriesQuery = query(
+        categoriesCollection,
+        where("type", "==", requestedFilter)
+      );
     }
 
     const categoriesSnapshots = await getDocs(categoriesQuery);
 
     const categoryList = categoriesSnapshots.docs.map((doc) => ({
-        id: doc.id,
+      id: doc.id,
       ...doc.data(),
     }));
 
@@ -51,11 +61,18 @@ export async function GET(req) {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("This is category",categoryList);
+    console.log("This is category", categoryList);
 
-    
+    // i need to filter out the products based on their categories and get the final ProducList of categories
+    const filteredProducts = productList.filter((product)=> {
+        categoryList.some(category=>{ 
+            category.type === product.category
+        })
+    })
 
-    return NextResponse.json(productList, categoryList);
+    const finalProductList = filteredProducts.length > 0 ? filteredProducts : productList
+
+    return NextResponse.json(finalProductList, categoryList);
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch Products" },
