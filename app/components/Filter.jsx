@@ -27,13 +27,13 @@ const Filter = ({ onCategoryChange }) => {
   }, []);
 
   return (
-    <div>
+    <div className="px-3">
       <h1 className="text-gray-800 text-2xl font-semibold pl-5 mb-4">
         Categories
       </h1>
       <button
         onClick={() => onCategoryChange("all")}
-        className="w-20 h-10 bg-[blue] text-white py-2 rounded-md mb-2 mt-4 hover:bg-[blue]"
+        className="w-10 h-10 bg-orange-600 text-white py-2 rounded-md mb-2 mt-4 hover:bg-orange-500"
       >
         All
       </button>
