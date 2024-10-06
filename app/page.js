@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import ProductWrapper from "./components/ProductWrapper";
+import { useState } from "react";
 // import ProductList from "./components/ProductList";
 import Filter from "./components/Filter";
 import { useRouter, useSearchParams } from "next/navigation"; // This handles client-side navigation
@@ -9,15 +10,17 @@ import { useRouter, useSearchParams } from "next/navigation"; // This handles cl
 const ProductList = dynamic(()=> import("./components/ProductList"), {ssr: false})
 
 const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
 
   // Read category from URL query params
-  const category = searchParams.get("filter") || "all";
+  // const category = searchParams.get("filter") || "all";
 
   // Handler to change category and push new URL
-  const handleCategoryChange = (selectedCategory) => {
-    router.push(`/?filter=${selectedCategory}`);
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category)
+    router.push(`/?filter=${category}`);
   };
 
   return (
@@ -27,7 +30,7 @@ const Home = () => {
 
       {/* Server-side ProductList fetching */}
       <ProductWrapper>
-        <ProductList category={category} />
+        <ProductList category={selectedCategory} />
       </ProductWrapper>
     </div>
   );
