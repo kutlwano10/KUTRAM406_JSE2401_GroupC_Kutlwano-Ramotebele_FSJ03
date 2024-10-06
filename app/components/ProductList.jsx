@@ -4,7 +4,7 @@ import SkeletonLoader from "./ProductSkeleton";
 // Ensure that this component is a Server Component
 const getProducts = async (category = 'all' ) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/?filter=${category}`, { cache: "no-store" });
+    const res = await fetch(`https://shofy-app-flax.vercel.app/api/products/?filter=${category}`, { cache: "no-store" });
     if (!res.ok) {
       throw new Error("Failed to fetch products");
     }
