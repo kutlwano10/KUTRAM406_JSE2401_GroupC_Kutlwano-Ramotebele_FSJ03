@@ -1,27 +1,23 @@
-
+"use client"
 import { useEffect, useState } from "react";
 
-const getCategories = async () => {
-  try {
-    const res = await fetch(`https://shofy-app-flax.vercel.app/api/products/categories`, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error("Failed to fetch categories");
-    }
-    const data = await res.json();
-    return data[0]?.categories || []; // Access categories array safely
-  } catch (error) {
-    console.error("Failed to fetch categories", error);
-    return []; 
-  }
-};
 
 const Filter = ({ onCategoryChange }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const fetchedCategories = await getCategories();
-      setCategories(fetchedCategories);
+      try {
+        const res = await fetch(`http://localhost:3000/api/products/categories`, { cache: "no-store" });
+        if (!res.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await res.json();
+        setCategories(data[0]?.categories || []); // Access categories array safely
+      } catch (error) {
+        console.error("Failed to fetch categories", error);
+        return []; 
+      }
     };
     fetchCategories();
   }, []);

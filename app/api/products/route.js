@@ -30,7 +30,7 @@ export async function GET(req) {
     const requestedFilter = searchParams.get("filter");
 
     //This set the limit to any number you want else it sets its default to 20
-    const productsLimit = requestedLimit ? parseInt(requestedLimit, 10) : 20;
+    const productsLimit = requestedLimit ? parseInt(requestedLimit, 10) : 50;
 
     const productsCollection = collection(db, "products");
     //i created a query with a limit default of 20
@@ -67,9 +67,6 @@ export async function GET(req) {
         filteredProducts = productList
     }
 
-    console.log(categories)
-console.log(filteredProducts)
-   
 
     return NextResponse.json(filteredProducts);
   } catch (error) {

@@ -26,8 +26,8 @@ import {
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
-    const requestedLimit = searchParams.get("limit");
-    const requestedFilter = searchParams.get("filter");
+    // const requestedLimit = searchParams.get("limit");
+    // const requestedFilter = searchParams.get("filter");
 
     //Getting all Categories
 
@@ -41,8 +41,6 @@ export async function GET(req) {
     }));
 
     //categoryList has only one document with the 'categories' field
-    const categories = categoryList.length > 0 ? categoryList[0].categories : [];
-    console.log(categories)
 
     return NextResponse.json(categoryList);
   } catch (error) {
