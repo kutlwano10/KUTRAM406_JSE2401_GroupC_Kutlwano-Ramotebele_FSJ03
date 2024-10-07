@@ -1,10 +1,11 @@
 import ProductList from "./components/ProductList";
+import ProductWrapper from "./components/ProductWrapper";
 
 const Home = () => {
   return (
-    <div>
+    <ProductWrapper>
       <ProductList />
-    </div>
+    </ProductWrapper>
   );
 };
 
