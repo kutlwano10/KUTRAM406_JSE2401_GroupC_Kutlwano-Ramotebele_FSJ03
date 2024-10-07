@@ -21,15 +21,15 @@ const Header = () => {
 
           <Link
             href="/"
-            className="pl-8 text-[#87e64b] font-extrabold text-3xl  md:text-5xl"
+            className=""
           >
             <Image
-              className="object-cover "
+              className="object-cover w-28"
               priority="true"
               alt="logo"
               src={logo}
-              width={120}
-              height={100}
+              width=''
+              height=''
 
             />
           </Link>

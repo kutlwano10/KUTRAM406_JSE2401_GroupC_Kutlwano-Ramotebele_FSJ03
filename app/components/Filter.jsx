@@ -10,8 +10,8 @@ const Filter = ({ onCategoryChange }) => {
     const fetchCategories = async () => {
       try {
         const res = await fetch(
-          `https://shofy-app-flax.vercel.app/api/products/categories`,
-          { cache: "no-store" }
+          `http://localhost:3000/api/products/categories`,
+          { revalidate : "60"  }
         );
         if (!res.ok) {
           throw new Error("Failed to fetch categories");

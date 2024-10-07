@@ -1,5 +1,8 @@
 "use client"
+import { auth } from '@/lib/firebaseConfig';
 import React, { useState } from 'react';
+import {useCreateUserWithEmailAndPassword} from "react-firebase-hooks/auth"
+
 
 const SignUp = () => {
   // State to manage form inputs
@@ -9,9 +12,12 @@ const SignUp = () => {
     password: ''
   });
 
+  const [createUseWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth)
   // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    
     setFormData({
       ...formData,
       [name]: value
@@ -19,14 +25,21 @@ const SignUp = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+    
+    try {
+        const res = await createUseWithEmailAndPassword(formData)
+        console.log(res)
+    } catch (error) {
+        console.error(error)
+        
+    }
     // Add further logic here
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

@@ -34,7 +34,7 @@ export async function GET(req) {
 
     const productsCollection = collection(db, "products");
     //i created a query with a limit default of 20
-    const productsQuery = query(productsCollection, limit(productsLimit));
+    const productsQuery = query(productsCollection);
     const productsSnapshots = await getDocs(productsQuery);
 
     const productList = productsSnapshots.docs.map((doc) => ({
@@ -66,8 +66,9 @@ export async function GET(req) {
     }else {
         filteredProducts = productList
     }
-
-
+    
+    // console.log(filteredProducts)
+  filteredProducts = filteredProducts.splice(0,productsLimit);
     return NextResponse.json(filteredProducts);
   } catch (error) {
     return NextResponse.json(
