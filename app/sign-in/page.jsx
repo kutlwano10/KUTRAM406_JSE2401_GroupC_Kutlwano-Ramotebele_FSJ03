@@ -1,28 +1,27 @@
-"use client";
-import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "@/lib/firebaseConfig";
-// import { createUserWithEmailAndPassword } from 'firebase/auth';
-const Signup = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+"use client"
+import React, { useState } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '@/lib/firebaseConfig';
+import { useRouter } from 'next/navigation';
 
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+const router = useRouter()
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
+  
+  const handleSubmit =async (e) => {
+    e.preventDefault()
+    
     try {
-      const res = await createUserWithEmailAndPassword(email, password);
-      if (res) {
-        console.log({ res });
-        console.log("i am signed in");
-        setEmail("");
-        setPassword("");
-      }
+        const res = await signInWithEmailAndPassword(email, password)
+        console.log({res})
+        console.log("this is us")
+        setEmail('')
+        setPassword('')
+        router.push('/')
     } catch (error) {
-      console.error(error);
+        console.error(error)
     }
   };
 
@@ -32,7 +31,7 @@ const Signup = () => {
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
       >
-        <h2 className="text-xl font-semibold mb-4 text-center">Sign Up</h2>
+        <h2 className="text-xl font-semibold mb-4 text-center">Sign In</h2>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
@@ -51,10 +50,7 @@ const Signup = () => {
         </div>
 
         <div className="mb-6">
-          <label
-            className="block text-gray-700 text-sm mb-2"
-            htmlFor="password"
-          >
+          <label className="block text-gray-700 text-sm mb-2" htmlFor="password">
             Password
           </label>
           <input
@@ -73,11 +69,11 @@ const Signup = () => {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
         >
-          Sign Up
+          Sign In
         </button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default SignIn;
