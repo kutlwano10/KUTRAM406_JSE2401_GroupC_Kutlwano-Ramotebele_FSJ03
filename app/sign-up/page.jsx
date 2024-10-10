@@ -2,10 +2,12 @@
 import { useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebaseConfig";
+import { useRouter } from "next/navigation";
 // import { createUserWithEmailAndPassword } from 'firebase/auth';
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter()
 
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
@@ -20,6 +22,7 @@ const Signup = () => {
         console.log("i am signed in");
         setEmail("");
         setPassword("");
+        router.push('sign-in')
       }
     } catch (error) {
       console.error(error);

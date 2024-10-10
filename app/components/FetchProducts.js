@@ -6,7 +6,7 @@
  */
 const getProducts = async (category = 'all' ) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/products/?filter=${category}`,{cache: "force-cache"} );
+      const res = await fetch(`http://localhost:3000/api/products/?filter=${category}`,{cache: "force-cache"} );
       if (!res.ok) {
         throw new Error("Failed to fetch products");
       }

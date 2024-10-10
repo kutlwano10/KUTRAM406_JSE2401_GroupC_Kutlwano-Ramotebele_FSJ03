@@ -10,7 +10,7 @@ const Filter = ({ onCategoryChange }) => {
     const fetchCategories = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3001/api/products/categories`,
+          `http://localhost:3000/api/products/categories`,
           { cache:"force-cache" }
         );
         if (!res.ok) {

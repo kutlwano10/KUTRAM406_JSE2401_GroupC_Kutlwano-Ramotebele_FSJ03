@@ -8,9 +8,20 @@ import search from "../public/search.svg";
 import logo from "../public/logo.png"
 import InstallPwaButton from "./InstallPwaButton";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/lib/firebaseConfig";
+import { useRouter } from "next/navigation";
+
+
 
 const Header = () => {
 
+  const [user] = useAuthState(auth)
+  const router = useRouter()
+
+  if(!user) {
+    router.push('/sign-up')
+  }
 
   return (
     <>
