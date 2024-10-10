@@ -17,12 +17,13 @@ import { signOut } from "firebase/auth";
 const Header = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
+  const userSession = sessionStorage.getItem("user");
 
-  console.log({user})
+  console.log({ user });
 
-  // if (!user) {
-  //   router.push("/sign-up");
-  // }
+  if (!user && !userSession) {
+    router.push("/sign-up");
+  }
 
   return (
     <>
@@ -42,17 +43,29 @@ const Header = () => {
             />
           </Link>
 
-          <div className=" flex items-center  md:gap-4">
+          <div className=" flex items-center gap-4  md:gap-4">
             {/* Login */}
-            <Link
-              className="text-center flex justify-center flex-col items-center"
-              href="/sign-in"
-            >
-              <Image className=" w-6" src={profile} alt="" />
-              {/* {!user ? <p>sign out</p> : <p onClick={router.push('/sign-in')}>Sign In</p>} */}
-            </Link>
+            {user ? (
+              <Link
+                onClick={() => {
+                  signOut(auth);
+                }}
+                className="text-center flex justify-center flex-col items-center"
+                href="/sign-in"
+              >
+                <Image className="w-6" src={profile} alt="Profile" />
+                <p>Sign Out</p>
+              </Link>
+            ) : (
+              <Link
+                className="text-center flex justify-center flex-col items-center"
+                href="/sign-in"
+              >
+                <Image className="w-6" src={profile} alt="Profile" />
+                <p>Sign In</p>
+              </Link>
+            )}
 
-            <button onClick={() => signOut(auth)}>Sign out</button>
             {/* cart */}
             <button className="relative cursor-pointer">
               {/* {console.log(totalItemsInCart)} */}

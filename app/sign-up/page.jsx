@@ -19,7 +19,8 @@ const Signup = () => {
       const res = await createUserWithEmailAndPassword(email, password);
       if (res) {
         console.log({ res });
-        console.log("i am signed in");
+        console.log("i am signed up");
+        sessionStorage.setItem("user", true)
         setEmail("");
         setPassword("");
         router.push('sign-in')
@@ -30,10 +31,10 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center ">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
+        className="bg-white p-6 w-full max-w-sm"
       >
         <h2 className="text-xl font-semibold mb-4 text-center">Sign Up</h2>
 

@@ -7,31 +7,45 @@ import { useRouter } from 'next/navigation';
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-const router = useRouter()
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
+  const [errorMessage, setErrorMessage] = useState(null); // State for error message
+  const router = useRouter();
+  const [signInWithEmailAndPassword, loading, error] = useSignInWithEmailAndPassword(auth);
   
-  const handleSubmit =async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
     try {
-        const res = await signInWithEmailAndPassword(email, password)
-        console.log({res})
-        console.log("this is us")
-        setEmail('')
-        setPassword('')
-        router.push('/')
+      const res = await signInWithEmailAndPassword(email, password);
+
+      if (res?.user) {
+        // Successfully signed in
+        console.log("User signed in:", res.user);
+        sessionStorage.setItem("user", JSON.stringify(res.user)); // Store user info
+        setEmail('');
+        setPassword('');
+        router.push('/'); // Redirect to home
+      }
     } catch (error) {
-        console.error(error)
+      // Set error message
+      setErrorMessage(error.message);
+      console.error("Error signing in:", error);
     }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center ">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
+        className="bg-white p-6  w-full max-w-sm"
       >
         <h2 className="text-xl font-semibold mb-4 text-center">Sign In</h2>
+
+        {/* Display error message if any */}
+        {errorMessage && (
+          <div className="mb-4 text-red-500 text-sm">
+            {errorMessage}
+          </div>
+        )}
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
@@ -68,8 +82,9 @@ const router = useRouter()
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+          disabled={loading} // Disable button while loading
         >
-          Sign In
+          {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
     </div>
@@ -77,3 +92,4 @@ const router = useRouter()
 };
 
 export default SignIn;
+
