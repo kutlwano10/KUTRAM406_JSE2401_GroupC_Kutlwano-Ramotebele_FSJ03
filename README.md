@@ -1,5 +1,8 @@
 # YumYum store using Next.js
 
+**Link For YumYum Ecommerce Application**
+https://shofy-app-flax.vercel.app/
+
 **Introduction**
 
 This is an E-commerce Store project designed as a web application to allow users to browse, search, sort and filter from an shofy ecommerce API. The project includes features such as image carousel where you can view different images from a product and a navigation page for product details. It also allows users to browse, sort, paginate as well as add, delete or edit a review in product details page.
@@ -81,7 +84,7 @@ If you would like to contribute to the project, please follow these steps:
 
 1. Fork the repository.
 2. Create a new branch: **git checkout -b feature-branch**
-3. Mkae your changes
+3. Make your changes.
 4. Commit your chnages: **git commit -am 'Add new feature**
 5. Push to the branches: **git push origin feature-branch**
 6. Create a pull request.
