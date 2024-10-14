@@ -37,7 +37,7 @@ const Filter = ({ onCategoryChange }) => {
       >
         All
       </button>
-      <div className="flex w-full gap-6 mb-8 lg:justify-center overflow-x-auto">
+      <div className="flex w-full gap-6 mb-8 lg:justify-center overflow-x-auto ">
         {categories.map((category, index) => (
           <div
             key={index}

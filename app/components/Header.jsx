@@ -15,76 +15,80 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 
 const Header = () => {
-  const [user] = useAuthState(auth);
-  const [userSession, setUserSession] = useState(null);
+  const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
+  // const userSession = sessionStorage.getItem("user");
 
-  // Use useEffect to access sessionStorage only on the client side
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const session = sessionStorage.getItem("user");
-      setUserSession(session);
-    }
-  }, []);
+  console.log({ user });
 
-  // Redirect to /sign-up if user is not logged in and no session is available
+  // Redirect to signup only when loading is done and user is not authenticated
   useEffect(() => {
-    if (!user && !userSession) {
+    if (!loading && !user) {
       router.push("/sign-up");
     }
-  }, [user, userSession, router]);
+  }, [loading, user, router]);
+
+  if (loading) {
+    // Optionally display a loading spinner or placeholder while Firebase is initializing
+    return <div></div>;
+  }
 
   return (
     <>
-      <header className="w-full fixed top-0 bg-white shadow-md z-10">
-        <nav className="flex justify-between items-center px-4 md:p-[8%] py-4 md:py-6">
+      <header className=" w-full fixed top-0 bg-white shadow-md z-10">
+        <nav className="flex justify-between items-center  px-4 md:p-[8%] py-4 md:py-6">
           <Image className="w-7" src={menu} alt="" />
           <InstallPwaButton />
 
-          <Link href="/" className="">
+          <Link href="" className="">
             <Image
               className="object-cover w-28"
-              priority={true}
+              priority="true"
               alt="logo"
               src={logo}
+              width=""
+              height=""
             />
           </Link>
 
-          <div className="flex items-center gap-4 md:gap-4">
+          <div className=" flex items-center  md:gap-4">
             {/* Login */}
-            {user || userSession ? (
-              <Link
-                onClick={() => {
-                  signOut(auth);
-                  sessionStorage.removeItem("user"); // Clear session storage on sign out
-                }}
-                className="text-center flex justify-center flex-col items-center"
-                href="/sign-in"
-              >
-                <Image className="w-6" src={profile} alt="Profile" />
-                <p>Sign Out</p>
-              </Link>
-            ) : (
-              <Link
-                className="text-center flex justify-center flex-col items-center"
-                href="/sign-in"
-              >
-                <Image className="w-6" src={profile} alt="Profile" />
-                <p>Sign In</p>
-              </Link>
-            )}
+            <Link
+              className="text-center flex justify-center flex-col items-center"
+              href="/sign-in"
+            >
+              <Image className=" w-6" src={profile} alt="" />
+              {/* {!user ? <p>sign out</p> : <p>Sign In</p> */}
+            </Link>
 
-            {/* Cart */}
+            <button
+              onClick={() => {
+                signOut(auth);
+                sessionStorage.removeItem("user");
+              }}
+            >
+              Sign out
+            </button>
+            {/* cart */}
             <button className="relative cursor-pointer">
+              {/* {console.log(totalItemsInCart)} */}
+
               <div className="t-0 absolute left-3 -top-4">
-                <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
+                <p className="flex h-2 w-2 items-center  justify-center rounded-full bg-red-500 p-3 text-xs text-white">
                   2
                 </p>
               </div>
-              <Image className="w-7" src={cart} alt="" />
+
+              <Image className="w-7 " src={cart} alt="" />
             </button>
           </div>
         </nav>
+        {/* Menu sidebar */}
+        {/* <div className="w-full hidden " id="navbar-dropdown">
+          <Footer />
+        </div> */}
+        {/* Cart Modal */}
+        {/* <Modal isOpen={isCartOpen} onClose={toggleCart} /> */}
       </header>
     </>
   );

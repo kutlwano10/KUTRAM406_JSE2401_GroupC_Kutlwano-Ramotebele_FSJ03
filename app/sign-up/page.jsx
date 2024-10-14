@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/lib/firebaseConfig";
 import { useRouter } from "next/navigation";
@@ -7,7 +8,7 @@ import { useRouter } from "next/navigation";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth);
@@ -20,10 +21,10 @@ const Signup = () => {
       if (res) {
         console.log({ res });
         console.log("i am signed up");
-        sessionStorage.setItem("user", true)
+        // sessionStorage.setItem("user", true)
         setEmail("");
         setPassword("");
-        router.push('sign-in')
+        router.push("sign-in");
       }
     } catch (error) {
       console.error(error);
@@ -32,10 +33,7 @@ const Signup = () => {
 
   return (
     <div className="flex justify-center items-center ">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 w-full max-w-sm"
-      >
+      <form onSubmit={handleSubmit} className="bg-white p-6 w-full max-w-sm">
         <h2 className="text-xl font-semibold mb-4 text-center">Sign Up</h2>
 
         <div className="mb-4">
@@ -79,6 +77,13 @@ const Signup = () => {
         >
           Sign Up
         </button>
+        <p>OR</p>
+        <Link
+          href="/sign-in"
+          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+        >
+          Sign In
+        </Link>
       </form>
     </div>
   );
