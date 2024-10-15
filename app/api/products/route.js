@@ -28,9 +28,11 @@ export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const requestedLimit = searchParams.get("limit");
     const requestedFilter = searchParams.get("filter");
+    const requestedSkip = searchParams.get('skip')
 
     //This set the limit to any number you want else it sets its default to 20
     const productsLimit = requestedLimit ? parseInt(requestedLimit, 10) : 20;
+    const productSkip = requestedSkip ? parseInt(requestedSkip, 10) : 0
 
     const productsCollection = collection(db, "products");
     //i created a query with a limit default of 20
@@ -68,8 +70,8 @@ export async function GET(req) {
     }
     
     // console.log(filteredProducts)
-  filteredProducts = filteredProducts.splice(0,productsLimit);
-    return NextResponse.json(filteredProducts);
+  const paginatedProducts = filteredProducts.splice(productSkip, productSkip + productsLimit);
+    return NextResponse.json(paginatedProducts);
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch Products" },

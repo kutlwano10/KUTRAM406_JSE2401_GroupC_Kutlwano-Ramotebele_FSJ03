@@ -2,29 +2,19 @@
 import { useEffect, useState } from "react";
 import meat from "../public/meat.jpg"
 import Image from "next/image"
+import { fetchCategories } from "@/lib/fetchData";
 
 const Filter = ({ onCategoryChange }) => {
   const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/products/categories`,
-          { cache:"force-cache" }
-        );
-        if (!res.ok) {
-          throw new Error("Failed to fetch categories");
-        }
-        const data = await res.json();
-        setCategories(data[0]?.categories || []); // Access categories array safely
-      } catch (error) {
-        console.error("Failed to fetch categories", error);
-        return [];
-      }
-    };
-    fetchCategories();
-  }, []);
+ useEffect(()=> {
+  const getCategories =async ()=> {
+    const data = await fetchCategories()
+    setCategories(data)
+  }
+  getCategories()
+ }, [])
+ 
 
   return (
     <div className="px-3">

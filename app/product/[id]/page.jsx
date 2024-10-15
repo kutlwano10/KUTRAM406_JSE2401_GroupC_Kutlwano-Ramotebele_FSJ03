@@ -1,18 +1,21 @@
-
 import Link from "next/link";
 import Image from "next/image";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import Back from "../../public/turn-back2.png";
+import AddReviewForm from "@/app/components/ReviewForm";
 
 export const fetchProductById = async (id) => {
   try {
-    const res = await fetch(`https://shofy-app-flax.vercel.app/api/products/${id}`, {cache: "no-store"});
+    const res = await fetch(
+      `https://shofy-app-flax.vercel.app/api/products/${id}`,
+      { cache: "no-store" }
+    );
     if (!res.ok) {
       throw new Error("Response Failed");
     }
-    console.log(res)
+    console.log(res);
     const data = await res.json();
-    console.log("This is the results",data)
+    console.log("This is the results", data);
 
     return data;
   } catch (error) {
@@ -36,7 +39,13 @@ const ProductDetails = async ({ params }) => {
     <main>
       <div className="mt-20 ml-10 w-14">
         <Link href="/">
-          <Image src={Back} alt="turn-back" priority="true" width={30} height={30} />
+          <Image
+            src={Back}
+            alt="turn-back"
+            priority="true"
+            width={30}
+            height={30}
+          />
         </Link>
       </div>
 
@@ -87,6 +96,69 @@ const ProductDetails = async ({ params }) => {
               </button>
             </div>
           </div>
+        </div>
+        {/* Add Review Form */}
+      <h2 className="text-lg font-semibold mt-8">Add a Review</h2>
+      <AddReviewForm productId={product.id} />
+        <div className="space-y-4 pt-10">
+          {product.reviews.map((item) => (
+            <div
+              key={item.reviewerEmail}
+              className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white relative"
+            >
+              <div className="absolute top-4 right-4 flex space-x-2">
+                {/* Edit Icon */}
+                <button className="text-blue-500 hover:text-blue-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M11 5h2v2h-2zM11 11h2v2h-2zM11 17h2v2h-2z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M3 10h18M3 14h18"
+                    />
+                  </svg>
+                </button>
+
+                {/* Delete Icon */}
+                <button className="text-red-500 hover:text-red-700">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <h1 className="text-lg font-semibold text-gray-800">
+                {item.reviewerName}
+              </h1>
+              <p>{item.comment}</p>
+              <div className="flex items-center space-x-2">
+                <span className="text-yellow-500">{item.rating} ★★★★★</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </main>

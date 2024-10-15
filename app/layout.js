@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
       >
         <Header/>
         <main className="min-h-screen pt-20 lg:pt-28 bg-white">{children}</main>
-        <MobileBar/>
+        {/* <MobileBar/> */}
       </body>
     </html>
   );
