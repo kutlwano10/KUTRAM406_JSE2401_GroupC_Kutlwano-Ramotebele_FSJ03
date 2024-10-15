@@ -22,11 +22,11 @@ const Header = () => {
   console.log({ user });
 
   // Redirect to signup only when loading is done and user is not authenticated
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/sign-up");
-    }
-  }, [loading, user, router]);
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     router.push("/sign-up");
+  //   }
+  // }, [loading, user, router]);
 
   if (loading) {
     // Optionally display a loading spinner or placeholder while Firebase is initializing
@@ -40,7 +40,7 @@ const Header = () => {
           <Image className="w-7" src={menu} alt="" />
           <InstallPwaButton />
 
-          <Link href="" className="">
+          <Link href="/" className="">
             <Image
               className="object-cover w-28"
               priority="true"
@@ -53,22 +53,26 @@ const Header = () => {
 
           <div className=" flex items-center  md:gap-4">
             {/* Login */}
-            <Link
-              className="text-center flex justify-center flex-col items-center"
-              href="/sign-in"
-            >
-              <Image className=" w-6" src={profile} alt="" />
-              {/* {!user ? <p>sign out</p> : <p>Sign In</p> */}
-            </Link>
+            {!user && (
+              <Link
+                className="text-center flex justify-center flex-col items-center"
+                href="/sign-in"
+              >
+                <Image className=" w-6" src={profile} alt="" />
+                 <p>Sign In</p> 
+              </Link>
+            )}
 
-            <button
-              onClick={() => {
-                signOut(auth);
-                sessionStorage.removeItem("user");
-              }}
-            >
-              Sign out
-            </button>
+            {user && (
+              <button
+                onClick={() => {
+                  signOut(auth);
+                  sessionStorage.removeItem("user");
+                }}
+              >
+                Sign out
+              </button>
+            )}
             {/* cart */}
             <button className="relative cursor-pointer">
               {/* {console.log(totalItemsInCart)} */}

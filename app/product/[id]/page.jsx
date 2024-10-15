@@ -1,40 +1,83 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { FaShoppingCart, FaHeart } from "react-icons/fa";
 import Back from "../../public/turn-back2.png";
 import AddReviewForm from "@/app/components/ReviewForm";
+import { useEffect, useState } from "react";
 
-export const fetchProductById = async (id) => {
+const fetchProductById = async (id) => {
   try {
-    const res = await fetch(
-      `https://shofy-app-flax.vercel.app/api/products/${id}`,
-      { cache: "no-store" }
-    );
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+      cache: "no-store",
+    });
     if (!res.ok) {
       throw new Error("Response Failed");
     }
-    console.log(res);
     const data = await res.json();
-    console.log("This is the results", data);
-
     return data;
   } catch (error) {
-    console.error("failed to Fetch Product", error);
+    console.error("Failed to fetch product", error);
+    return null; // Return null in case of error
   }
 };
 
-const ProductDetails = async ({ params }) => {
-  const product = await fetchProductById(params.id);
+const ProductDetails = ({ params }) => {
+  const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Fetch product data when the component mounts
+  useEffect(() => {
+    const loadProduct = async () => {
+      const fetchedProduct = await fetchProductById(params.id);
+      if (fetchedProduct) {
+        setProduct(fetchedProduct);
+        setReviews(fetchedProduct.reviews || []); // Set initial reviews
+      } else {
+        setError("Product not found");
+      }
+    };
+    loadProduct();
+  }, [params.id]);
+
+  // Handle review deletion
+  const handleDelete = async (reviewerEmail) => {
+    setError(null);
+    try {
+      const res = await fetch(`/api/products/${product.id}/reviews`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ reviewerEmail }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to delete review");
+      }
+
+      // Update reviews state after successful deletion
+      setReviews((prevReviews) =>
+        prevReviews.filter((review) => review.reviewerEmail !== reviewerEmail)
+      );
+      alert("Review deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      setError(error.message);
+    }
+  };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!product) {
-    return (
-      <main>
-        <div className="max-w-6xl mx-auto p-8">
-          <h1 className="text-4xl font-bold mb-2">Product not found</h1>
-        </div>
-      </main>
-    );
+    return <div>Loading...</div>; // Add loading state
   }
+
   return (
     <main>
       <div className="mt-20 ml-10 w-14">
@@ -52,14 +95,16 @@ const ProductDetails = async ({ params }) => {
       <div className="max-w-6xl mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div>
-            <Image
-              priority="true"
-              src={product.thumbnail}
-              alt={product.title}
-              width={300}
-              height={400}
-              className="w-full h-auto object-cover rounded-lg"
-            />
+            {product.images && (
+              <Image
+                priority="true"
+                src={product.images[0]}
+                alt={product.title}
+                width={300}
+                height={400}
+                className="w-full h-auto object-cover rounded-lg"
+              />
+            )}
           </div>
           <div className="flex flex-col justify-between">
             <div>
@@ -97,11 +142,13 @@ const ProductDetails = async ({ params }) => {
             </div>
           </div>
         </div>
+
         {/* Add Review Form */}
-      <h2 className="text-lg font-semibold mt-8">Add a Review</h2>
-      <AddReviewForm productId={product.id} />
+        <h2 className="text-lg font-semibold mt-8">Add a Review</h2>
+        <AddReviewForm productId={product.id} />
+
         <div className="space-y-4 pt-10">
-          {product.reviews.map((item) => (
+          {reviews.map((item) => (
             <div
               key={item.reviewerEmail}
               className="p-4 border border-gray-200 rounded-lg shadow-sm bg-white relative"
@@ -132,7 +179,10 @@ const ProductDetails = async ({ params }) => {
                 </button>
 
                 {/* Delete Icon */}
-                <button className="text-red-500 hover:text-red-700">
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => handleDelete(item.reviewerEmail)} // Handle review deletion
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
@@ -166,3 +216,5 @@ const ProductDetails = async ({ params }) => {
 };
 
 export default ProductDetails;
+
+

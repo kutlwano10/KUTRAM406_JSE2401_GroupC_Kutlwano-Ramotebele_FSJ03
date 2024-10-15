@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebaseConfig';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 const router = useRouter()
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
+  let searchParams = useSearchParams()
+
+  const redirectUrl = searchParams.get("redirect") || "/";
   
   const handleSubmit =async (e) => {
     e.preventDefault()
@@ -20,7 +24,7 @@ const router = useRouter()
           console.log('Signed in user:', res.user);
           setEmail('');
           setPassword('');
-          router.push('/');
+          router.push(redirectUrl);
         } else {
           alert('Invalid credentials, please try again.');
         }

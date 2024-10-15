@@ -119,7 +119,7 @@ export async function POST(req, { params }) {
  * Deletes an existing review from a product.
  */
 export async function DELETE(req, { params }) {
-  const { id } = params;
+  let { id } = params;
 
   id = id.padStart(3, '0');
   const { reviewerEmail } = await req.json();

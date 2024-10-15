@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Filter from "./Filter";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/lib/firebaseConfig";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +15,7 @@ const ProductList = () => {
   const [loading, setLoading] = useState(false); // Track loading state
   const [hasMore, setHasMore] = useState(true);
   const [displayLimit, setDisplayLimit] = useState(0);
+  const [user, userLoading] = useAuthState(auth); // userLoading is added to track auth state
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -22,9 +25,7 @@ const ProductList = () => {
 
   // Handler to change category and push new URL
   const handleCategoryChange = (newCategory) => {
-    // setSelectedCategory(category)
     router.push(`/?filter=${newCategory}`);
-    // window.location.search = `?filter=${category}`;
     setProducts([]);
     setPage(0);
     setDisplayLimit(20);
@@ -79,16 +80,12 @@ const ProductList = () => {
     );
   }
 
-  if (!products || products.length === 0) {
-    return (
-      <div className="px-[2%] md:px-0 max-w-xl md:mx-auto">
-        <p>No products found.</p>
-      </div>
-    );
-  }
-
   return (
     <div className="">
+      <h1 className="p-2">
+        <span className="text-orange-500 text-xl">Welcome Back </span>🥳,{" "}
+        {!userLoading && user ? user.email : "Guest"}
+      </h1>
       <Filter onCategoryChange={handleCategoryChange} />
       <div className="px-[2%] md:px-0 max-w-xl md:mx-auto grid gap-4 grid-cols-2 lg:grid-cols-5 justify-center md:grid-cols-3 lg:mx-[9%] items-center lg:max-w-none my-4">
         {products.map((product) => (
