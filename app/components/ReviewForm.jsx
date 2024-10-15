@@ -16,7 +16,7 @@ const AddReviewForm = ({ productId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
+    let apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
     // Redirect to signup if user is not authenticated
     if (!loading && !user) {
       router.push("/sign-up");
@@ -32,13 +32,16 @@ const AddReviewForm = ({ productId }) => {
     };
 
     try {
-      const res = await fetch(`http://localhost:3000/api/products/${productId}/reviews`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(reviewData),
-      });
+      const res = await fetch(
+        `${apiBaseUrl}/api/products/${productId}/reviews`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reviewData),
+        }
+      );
 
       const data = await res.json();
 
@@ -82,7 +85,9 @@ const AddReviewForm = ({ productId }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Comment</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Comment
+        </label>
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
@@ -92,7 +97,9 @@ const AddReviewForm = ({ productId }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Rating</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Rating
+        </label>
         <input
           type="number"
           min="1"
@@ -106,7 +113,10 @@ const AddReviewForm = ({ productId }) => {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+      >
         Submit Review
       </button>
     </form>
@@ -114,4 +124,3 @@ const AddReviewForm = ({ productId }) => {
 };
 
 export default AddReviewForm;
-

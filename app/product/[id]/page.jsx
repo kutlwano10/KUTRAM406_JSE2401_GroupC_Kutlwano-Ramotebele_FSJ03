@@ -7,9 +7,11 @@ import Back from "../../public/turn-back2.png";
 import AddReviewForm from "@/app/components/ReviewForm";
 import { useEffect, useState } from "react";
 
+let apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const fetchProductById = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+    const res = await fetch(`${apiBaseUrl}/api/products/${id}`, {
       cache: "no-store",
     });
     if (!res.ok) {
