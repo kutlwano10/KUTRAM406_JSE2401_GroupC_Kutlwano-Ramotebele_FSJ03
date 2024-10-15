@@ -1,38 +1,38 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState, Suspense } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/lib/firebaseConfig';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 
-const SignIn = () => {
+const SignInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-const router = useRouter()
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
-  let searchParams = useSearchParams()
+  const router = useRouter();
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  let searchParams = useSearchParams();
 
   const redirectUrl = searchParams.get("redirect") || "/";
-  
-  const handleSubmit =async (e) => {
-    e.preventDefault()
-    
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-        const res = await signInWithEmailAndPassword(email, password);
-    
-        if (res?.user) {
-          console.log('Signed in user:', res.user);
-          setEmail('');
-          setPassword('');
-          router.push(redirectUrl);
-        } else {
-          alert('Invalid credentials, please try again.');
-        }
-      } catch (error) {
-        console.error('Error during sign-in:', error.message);
-        alert('Sign in failed: ' + error.message);
+      const res = await signInWithEmailAndPassword(email, password);
+
+      if (res?.user) {
+        console.log('Signed in user:', res.user);
+        setEmail('');
+        setPassword('');
+        router.push(redirectUrl);
+      } else {
+        alert('Invalid credentials, please try again.');
       }
-    };
+    } catch (error) {
+      console.error('Error during sign-in:', error.message);
+      alert('Sign in failed: ' + error.message);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -85,4 +85,13 @@ const router = useRouter()
   );
 };
 
+const SignIn = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInForm />
+    </Suspense>
+  );
+};
+
 export default SignIn;
+
